@@ -111,11 +111,12 @@ class _HomeTest2State extends State<HomeTest2> {
   Constants cs = Constants();
   List<dynamic> consolidatedWeatherList = [];
 
-  String location = 'HaNoi';
 
   @override
   Widget build(BuildContext context) {
+    Dimension.init(context);
     Size size = MediaQuery.of(context).size;
+    String today =DateTime.now().toString().substring(0, 10);
 
     return BlocBuilder<WeatherBlocBloc, WeatherBlocState>(
       builder: (context, state) {
@@ -129,28 +130,28 @@ class _HomeTest2State extends State<HomeTest2> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 15,
+                    height: Dimension.height15,
                   ),
                   Text(
                     state.weather.areaName.toString(),
-                    style: const TextStyle(
+                    style:  TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 30.0,
+                      fontSize: Dimension.font30,
                     ),
                   ),
                   Text(
                     DateFormat("EEEE, d MMMM").format(state.weather.date!),
-                    style: const TextStyle(
+                    style:  TextStyle(
                       color: Colors.grey,
-                      fontSize: 16.0,
+                      fontSize: Dimension.font16,
                     ),
                   ),
-                  const SizedBox(
-                    height: 50,
+                   SizedBox(
+                    height: Dimension.height50,
                   ),
                   Container(
                     width: size.width,
-                    height: 200,
+                    height: Dimension.height200,
                     decoration: BoxDecoration(
                         color: cs.primaryColor,
                         borderRadius: BorderRadius.circular(15),
@@ -166,34 +167,33 @@ class _HomeTest2State extends State<HomeTest2> {
                       clipBehavior: Clip.none,
                       children: [
                         Positioned(
-                            top: -40,
-                            left: 20,
-                            child: getWeatherIconMain(
-                                state.weather.weatherConditionCode!)),
+                            top: -Dimension.height70,
+                            left: -Dimension.width15,
+                            child: getWeatherIconMain(state.weather.weatherConditionCode!)),
                         Positioned(
-                          bottom: 30,
-                          left: 60,
+                          bottom: Dimension.height40,
+                          left: Dimension.width50,
                           child: Text(
                             "${state.weather.weatherMain}",
-                            style: const TextStyle(
+                            style:  TextStyle(
                               color: Colors.white,
-                              fontSize: 30,
+                              fontSize: Dimension.font30,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                         Positioned(
-                          top: 20,
-                          right: 20,
+                          top: Dimension.height20,
+                          right: Dimension.width20,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(top: 4.0),
+                                padding:  EdgeInsets.only(top: Dimension.height4),
                                 child: Text(
                                   "${state.weather.temperature!.celsius!.round()}°C",
                                   style: TextStyle(
-                                    fontSize: 70,
+                                    fontSize: Dimension.font60,
                                     fontWeight: FontWeight.bold,
                                     foreground: Paint()
                                       ..shader = linearGradient,
@@ -207,11 +207,11 @@ class _HomeTest2State extends State<HomeTest2> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                   SizedBox(
+                    height: Dimension.height20,
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    padding:  EdgeInsets.symmetric(horizontal: Dimension.width40),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -235,44 +235,39 @@ class _HomeTest2State extends State<HomeTest2> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
+                   SizedBox(
+                    height: Dimension.height10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
+                       Text(
                         'Today',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 24,
+                          fontSize: Dimension.font24,
                         ),
                       ),
                       Text(
-                        'Next 7 Days',
+                        'Next 5 Days',
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 18,
+                            fontSize: Dimension.font18,
                             color: cs.primaryColor),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
+                   SizedBox(
+                    height: Dimension.height20,
                   ),
                   Expanded(
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: 5,
                           itemBuilder: (BuildContext context, int index) {
-                            String today =
-                                DateTime.now().toString().substring(0, 10);
                             var selectedDay = state.weatherList[index * 8].date;
-                            var futureWeatherName =
-                                state.weatherList[index * 8].weatherMain;
-                            // var weatherUrl =
-                            // futureWeatherName.replaceAll(' ', '').toLowerCase();
+                            var dayNow = DateFormat('yyyy-MM-dd').format(selectedDay!);
 
                             var parsedDate = state.weatherList[index * 8].date;
                             var newDate = DateFormat('EEEE')
@@ -288,17 +283,17 @@ class _HomeTest2State extends State<HomeTest2> {
                                               consolidatedWeatherList:
                                                   state.weatherList,
                                               selectedId: index,
-                                              location: location,
+                                              location: state.weatherList[index].areaName!,
                                             )));
                               },
                               child: Container(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 15),
-                                margin: const EdgeInsets.only(
-                                    right: 20, bottom: 10, top: 10),
-                                width: 80,
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                margin:  EdgeInsets.only(
+                                    right: Dimension.width20, bottom: Dimension.height10, top: Dimension.height10),
+                                width: Dimension.width80,
                                 decoration: BoxDecoration(
-                                    color: selectedDay == today
+                                    color: dayNow.toString() == today
                                         ? cs.primaryColor
                                         : Colors.white,
                                     borderRadius: const BorderRadius.all(
@@ -307,7 +302,7 @@ class _HomeTest2State extends State<HomeTest2> {
                                       BoxShadow(
                                         offset: const Offset(0, 1),
                                         blurRadius: 5,
-                                        color: selectedDay == today
+                                        color: dayNow.toString() == today
                                             ? cs.primaryColor
                                             : Colors.black54.withOpacity(.2),
                                       ),
@@ -319,8 +314,8 @@ class _HomeTest2State extends State<HomeTest2> {
                                     Text(
                                       "${state.weatherList[index * 8].temperature!.celsius!.round()}°C",
                                       style: TextStyle(
-                                        fontSize: 17,
-                                        color: selectedDay == today
+                                        fontSize: Dimension.font18,
+                                        color: dayNow.toString() == today
                                             ? Colors.white
                                             : cs.primaryColor,
                                         fontWeight: FontWeight.w500,
@@ -331,8 +326,8 @@ class _HomeTest2State extends State<HomeTest2> {
                                     Text(
                                       newDate,
                                       style: TextStyle(
-                                        fontSize: 17,
-                                        color: selectedDay == today
+                                        fontSize: Dimension.font18,
+                                        color: dayNow.toString() == today
                                             ? Colors.white
                                             : cs.primaryColor,
                                         fontWeight: FontWeight.w500,

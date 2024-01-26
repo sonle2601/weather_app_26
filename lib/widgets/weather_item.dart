@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:weather_app/utils/dimension.dart';
 
 class weatherItem extends StatelessWidget {
   const weatherItem({
@@ -14,26 +14,27 @@ class weatherItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Dimension.init(context);
     return Column(
       children: [
         Text(text, style: const TextStyle(
           color: Colors.black54,
         ),),
-        const SizedBox(
-          height: 8,
+         SizedBox(
+          height: Dimension.height8,
         ),
         Container(
           padding: const EdgeInsets.all(10.0),
-          height: 60,
-          width: 60,
+          height: Dimension.height60,
+          width: Dimension.width60,
           decoration: const BoxDecoration(
             color: Color(0xffE0E8FB),
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           child: Image.asset(imageUrl),
         ),
-        const SizedBox(
-          height: 8,
+         SizedBox(
+          height: Dimension.height8,
         ),
         Text(value.toString() + unit, style: const TextStyle(
           fontWeight: FontWeight.bold,

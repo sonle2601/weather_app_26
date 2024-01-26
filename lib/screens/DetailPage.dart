@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/weather.dart';
 import 'package:weather_app/screens/hometest2.dart';
+import 'package:weather_app/utils/dimension.dart';
 
 import '../bloc/weather_bloc_bloc.dart';
 import '../utils/constants.dart';
@@ -113,10 +114,10 @@ class _DetailPageState extends State<DetailPage> {
     }
   }
 
-  String imageUrl = '';
 
   @override
   Widget build(BuildContext context) {
+    Dimension.init(context);
     Size size = MediaQuery.of(context).size;
     Constants myConstants = Constants();
 
@@ -127,8 +128,7 @@ class _DetailPageState extends State<DetailPage> {
 
     int selectedIndex = widget.selectedId;
     var weatherStateName =
-        widget.consolidatedWeatherList[selectedIndex].areaName;
-    // imageUrl = weatherStateName.replaceAll(' ', '').toLowerCase();
+        widget.consolidatedWeatherList[selectedIndex].weatherMain;
     return Scaffold(
         backgroundColor: myConstants.secondaryColor,
         appBar: AppBar(
@@ -139,14 +139,6 @@ class _DetailPageState extends State<DetailPage> {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomeTest2()));
-                  },
-                  icon: const Icon(Icons.settings)),
             )
           ],
         ),
@@ -155,10 +147,10 @@ class _DetailPageState extends State<DetailPage> {
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              top: 10,
-              left: 10,
+              top: Dimension.height10,
+              left: Dimension.height10,
               child: SizedBox(
-                height: 100,
+                height: Dimension.height100,
                 width: 400,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -177,7 +169,7 @@ class _DetailPageState extends State<DetailPage> {
                       return Container(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         margin: const EdgeInsets.only(right: 20),
-                        width: 80,
+                        width: Dimension.width80,
                         decoration: BoxDecoration(
                             color: index * 8 == selectedIndex * 8
                                 ? Colors.white
@@ -199,9 +191,9 @@ class _DetailPageState extends State<DetailPage> {
                                       .temperature!.celsius!
                                       .round()
                                       .toString() +
-                                  "C",
+                                  "°C",
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: Dimension.font14,
                                 color: index * 8 == selectedIndex * 8
                                     ? Colors.blue
                                     : Colors.white,
@@ -214,7 +206,7 @@ class _DetailPageState extends State<DetailPage> {
                             Text(
                               newDate,
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: Dimension.font14,
                                 color: index * 8 == selectedIndex * 8
                                     ? Colors.blue
                                     : Colors.white,
@@ -244,13 +236,13 @@ class _DetailPageState extends State<DetailPage> {
                   children: [
                     Positioned(
                       top: 0,
-                      right: 20,
-                      left: 20,
+                      right: Dimension.width20,
+                      left: Dimension.width20,
                       child: Container(
                         width: size.width * .7,
-                        height: 220,
+                        height: Dimension.height220,
                         decoration: BoxDecoration(
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.center,
                                 colors: [
@@ -270,28 +262,29 @@ class _DetailPageState extends State<DetailPage> {
                           clipBehavior: Clip.none,
                           children: [
                             Positioned(
-                              top: -60,
-                              left: 20,
+                              top: -Dimension.height60,
+                              left: Dimension.width10,
                               child: getWeatherIconMain(widget
                                   .consolidatedWeatherList[selectedIndex * 8]
                                   .weatherConditionCode!),
                             ),
                             Positioned(
-                                top: 80,
-                                left: 30,
+                                top: Dimension.height80,
+                                left: Dimension.width40,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 10.0),
+                                  padding:  EdgeInsets.only(bottom: Dimension.height20),
                                   child: Text(
                                     weatherStateName!,
-                                    style: const TextStyle(
+                                    style:  TextStyle(
+                                      fontWeight: FontWeight.w600,
                                       color: Colors.white,
-                                      fontSize: 20,
+                                      fontSize: Dimension.font20,
                                     ),
                                   ),
                                 )),
                             Positioned(
-                              bottom: 20,
-                              left: 20,
+                              bottom: Dimension.height20,
+                              left: Dimension.width20,
                               child: Container(
                                 width: size.width * .8,
                                 padding:
@@ -329,7 +322,7 @@ class _DetailPageState extends State<DetailPage> {
                                           .tempMax!
                                           .celsius!
                                           .round(),
-                                      unit: 'C',
+                                      unit: '°C',
                                       imageUrl: 'assets/max-temp.png',
                                     ),
                                   ],
@@ -337,8 +330,8 @@ class _DetailPageState extends State<DetailPage> {
                               ),
                             ),
                             Positioned(
-                              top: 10,
-                              right: 20,
+                              top: Dimension.height10,
+                              right: Dimension.width20,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -351,7 +344,7 @@ class _DetailPageState extends State<DetailPage> {
                                         .round()
                                         .toString(),
                                     style: TextStyle(
-                                      fontSize: 80,
+                                      fontSize: Dimension.font70,
                                       fontWeight: FontWeight.bold,
                                       foreground: Paint()
                                         ..shader = linearGradient,
@@ -360,7 +353,7 @@ class _DetailPageState extends State<DetailPage> {
                                   Text(
                                     'o',
                                     style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: Dimension.font40,
                                       fontWeight: FontWeight.bold,
                                       foreground: Paint()
                                         ..shader = linearGradient,
@@ -374,10 +367,10 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ),
                     Positioned(
-                        top: 250,
-                        left: 20,
+                        top: Dimension.height250,
+                        left: Dimension.width20,
                         child: SizedBox(
-                          height: 260,
+                          height: Dimension.height260,
                           width: size.width * .9,
                           child: ListView.builder(
                               scrollDirection: Axis.vertical,
@@ -386,17 +379,15 @@ class _DetailPageState extends State<DetailPage> {
                                 var futureWeatherName = widget
                                     .consolidatedWeatherList[index * 8]
                                     .weatherMain;
-                                // var futureImageURL = futureWeatherName
-                                //     .replaceAll(' ', '')
-                                //     .toLowerCase();
+
                                 var myDate = widget
                                     .consolidatedWeatherList[index * 8].date;
                                 var currentDate =
                                     DateFormat('d MMMM, EEEE').format(myDate!);
                                 return Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 10, top: 10, right: 10, bottom: 5),
-                                  height: 80,
+                                  margin:  EdgeInsets.only(
+                                      left: Dimension.width10, top: Dimension.height10, right: Dimension.width10, bottom: Dimension.height4),
+                                  height: Dimension.height80,
                                   width: size.width,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -434,18 +425,18 @@ class _DetailPageState extends State<DetailPage> {
                                                   .tempMax!
                                                   .celsius!
                                                   .round()
-                                                  .toString(),
-                                              style: const TextStyle(
+                                                  .toString()+"°",
+                                              style:  TextStyle(
                                                 color: Colors.grey,
-                                                fontSize: 30,
+                                                fontSize: Dimension.font30,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),
-                                            const Text(
+                                             Text(
                                               '/',
                                               style: TextStyle(
                                                 color: Colors.grey,
-                                                fontSize: 30,
+                                                fontSize: Dimension.font30,
                                               ),
                                             ),
                                             Text(
@@ -455,10 +446,10 @@ class _DetailPageState extends State<DetailPage> {
                                                   .tempMin!
                                                   .celsius!
                                                   .round()
-                                                  .toString(),
-                                              style: const TextStyle(
+                                                  .toString()+"°",
+                                              style:  TextStyle(
                                                 color: Colors.grey,
-                                                fontSize: 25,
+                                                fontSize: Dimension.font24,
                                               ),
                                             ),
                                           ],
