@@ -147,7 +147,7 @@ class _HomeTest2State extends State<HomeTest2> {
                     ),
                   ),
                    SizedBox(
-                    height: Dimension.height50,
+                    height: Dimension.height40,
                   ),
                   Container(
                     width: size.width,
